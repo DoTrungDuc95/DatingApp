@@ -1,0 +1,80 @@
+<div class="card">
+  <div class="card-body">
+    <div *ngIf="messages?.length === 0">
+      <strong>No messages yet... Say hi my using the message box below</strong>
+    </div>
+
+    <ul class="chat">
+      <li *ngFor="let item of messages">
+        <!-- show to them -->
+        <div *ngIf="item.senderId == rId">
+          <span class="chat-img float-left">
+            <img
+              src="{{ item.senderPhotoUrl }}"
+              alt="{{ item.senderKnowAs }}"
+              class="rounded-circle"
+            />
+          </span>
+          <div class="chat-body">
+            <div class="header">
+              <strong class="primary-font">{{ item.senderKnowAs }}</strong>
+              <small class="text-muted float-right">
+                <span class="fa fa-clock-o">{{
+                  item.messageSent | timeago
+                }}</span>
+              </small>
+            </div>
+            <p>{{ item.content }}</p>
+          </div>
+        </div>
+
+        <!-- show to me -->
+        <div *ngIf="item.senderId != rId">
+          <span class="chat-img float-right">
+            <img
+              src="{{ item.senderPhotoUrl }}"
+              alt="{{ item.senderKnowAs }}"
+              class="rounded-circle"
+            />
+          </span>
+          <div class="chat-body">
+            <div class="header">
+              <small class="text-muted">
+                <span class="fa fa-clock-o">{{
+                  item.messageSent | timeago
+                }}</span>
+
+                <span *ngIf="!item.isRead" class="text-danger">(unread)</span>
+
+                <span *ngIf="item.isRead" class="text-success"
+                  >(Read {{ item.dateRead | timeago }})</span
+                >
+              </small>
+              <strong class="primary-font float-right">{{
+                item.senderKnowAs
+              }}</strong>
+            </div>
+            <p>{{ item.content }}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer">
+    <form #mesForm="ngForm" (ngSubmit)="sendMessage(mesForm)">
+      <div class="input-group">
+        <input
+          type="text"
+          name='content'
+          [(ngModel)]="newMessage.content"
+          required
+          class="form-control input-sm"
+          placeholder="send messages here"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-info" [disabled]="mesForm.invalid">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

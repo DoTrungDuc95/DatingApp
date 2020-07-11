@@ -1,0 +1,19 @@
+table {
+  margin-top: 15px;
+}
+
+.img-circle {
+  max-height: 50px;
+}
+
+td {
+  vertical-align: middle;
+}
+
+tr:hover{
+    background-color: rgba(182, 238, 238, 0.4);
+}
+
+tr:hover.title{
+    background: none;
+}

@@ -1,0 +1,108 @@
+<div class="container" style="margin-top: 75px;">
+  <div class="row mb-3">
+    <div class="col-sm-4">
+      <h1>My Profile</h1>
+    </div>
+    <div *ngIf="editForm.dirty" class="col-sm-8 align-middle">
+      <div class="alert alert-info">
+        <strong>Infomation: </strong>You have made changes. Any unsave changes
+        will be lost
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-sm-4">
+      <div class="card">
+        <img
+          src="{{ photoUrl || '../../../assets/user.png' }}"
+          alt="{{ user.knowAs | titlecase }}"
+          class="img-thumbnail card-img-top"
+        />
+        <div class="card-body">
+          <div>
+            <strong class="card-title">Location:</strong>
+            <p class="card-text">{{ user.city }}, {{ user.country }}</p>
+          </div>
+          <div>
+            <strong class="card-title">Age:</strong>
+            <p class="card-text">{{ user.age }}</p>
+          </div>
+          <div>
+            <strong class="card-title">Last Active:</strong>
+            <p class="card-text">{{ user.lastActive | timeago }}</p>
+          </div>
+          <div>
+            <strong class="card-title">Member since:</strong>
+            <p class="card-text">{{ user.created | date: "dd/MM/yyyy hh:mm:ss" }}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button
+            [disabled]="!editForm.dirty"
+            form="editForm"
+            type="submit"
+            class="btn btn-success btn-block"
+          >
+            <i class="fa fa-save mr-1"></i>Save
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <tabset class="member-tabset">
+          <tab heading="Edit Profile">
+            <form #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
+              <h4>Description</h4>
+              <textarea
+                name="introduction"
+                rows="5"
+                class="form-control"
+                [(ngModel)]="user.introduction"
+              ></textarea>
+              <hr style="background-color: chartreuse;" />
+              <h4>Looking for</h4>
+              <textarea
+                name="lookingFor"
+                rows="5"
+                class="form-control"
+                [(ngModel)]="user.lookingFor"
+              ></textarea>
+              <hr style="background-color: chartreuse;" />
+              <h4>Interests</h4>
+              <textarea
+                name="interests"
+                rows="5"
+                class="form-control"
+                [(ngModel)]="user.interests"
+              ></textarea>
+              <hr style="background-color: chartreuse;" />
+              <h4>Location Detail</h4>
+              <div class="form-inline">
+                <label for="city" class="control-label mr-2">City</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="city"
+                  id="city"
+                  [(ngModel)]="user.city"
+                />
+                <label for="country" class="control-label mr-2">Country</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="country"
+                  id="country"
+                  [(ngModel)]="user.country"
+                />
+              </div>
+            </form>
+          </tab>
+          <tab heading="Edit Photos">
+            <app-photo-edit [photos]="user.photos" (getMemberPhotoChange)="updateMainPhoto($event)"></app-photo-edit>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>

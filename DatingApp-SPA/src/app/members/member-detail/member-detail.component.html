@@ -1,0 +1,76 @@
+<div class="container" style="margin-top: 75px;">
+  <div class="text-center mb-3">
+    <h1>{{ user.knowAs | titlecase }}'s Profile</h1>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img
+          src="{{ user.photoUrl || '../../../assets/user.png' }}"
+          alt="{{ user.knowAs | titlecase }}"
+          class="img-thumbnail card-img-top"
+        />
+        <div class="card-body">
+          <div>
+            <strong class="card-title">Location:</strong>
+            <p class="card-text">{{ user.city }}, {{ user.country }}</p>
+          </div>
+          <div>
+            <strong class="card-title">Age:</strong>
+            <p class="card-text">{{ user.age }}</p>
+          </div>
+          <div>
+            <strong class="card-title">Last Active:</strong>
+            <p class="card-text">
+              {{ user.lastActive | timeago }}
+            </p>
+          </div>
+          <div>
+            <strong class="card-title">Member since:</strong>
+            <p class="card-text">
+              {{ user.created | date: "dd/MM/yyyy hh:mm:ss" }}
+            </p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="btn-group d-flex">
+            <button class="btn btn-primary mr-3 w-100">
+              <i class="fa fa-thumbs-up mr-1"></i>Like
+            </button>
+            <button class="btn btn-success w-100" (click)="selectTab(3)">
+              <i class="fa fa-envelope mr-1"></i>Message
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <tabset class="member-tabset" #tabset>
+          <tab heading="About {{ user.knowAs | titlecase }}">
+            <h4>Description</h4>
+            <p>{{ user.introduction }}</p>
+            <hr style="background-color: chartreuse;" />
+            <h4>Looking for</h4>
+            <p>{{ user.lookingFor }}</p>
+          </tab>
+          <tab heading="Interests">
+            <h4>Interests</h4>
+            <p>{{ user.interests }}</p>
+          </tab>
+          <tab heading="Photos">
+            <div class="container">
+              <ngx-gallery
+                [options]="galleryOptions"
+                [images]="galleryImages"
+              ></ngx-gallery>
+            </div>
+          </tab>
+          <tab heading="Messages">
+            <app-member-messages [rId]="user.id"></app-member-messages>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>
